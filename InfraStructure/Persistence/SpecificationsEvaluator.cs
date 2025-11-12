@@ -11,22 +11,21 @@ namespace Persistence
 {
     internal static class SpecificationsEvaluator
     {
-        // Add constraint: where TEntity : BaseEntity<TKey>
+        
         public static IQueryable<TEntity> GetQuery<TEntity, TKey>(
             IQueryable<TEntity> inputQuery,
             ISpecifications<TEntity, TKey> specifications)
             where TEntity : BaseEntity<TKey>
         {
             var query = inputQuery;
-            // modify the IQueryable using the specification's criteria expression
+           
             if (specifications.Criteria != null)
                 query = query.Where(specifications.Criteria);
 
-            if (specifications.Includes?.Count()> 0)
+           if (specifications.Includes?.Count() > 0)
             {
-                specifications.Includes.Aggregate(query,
-                    (currentQuerry, includeExpression) => currentQuerry.Include(includeExpression));
-                
+                query = specifications.Includes
+                    .Aggregate(query, (currentQuery, includeExpression) => currentQuery.Include(includeExpression));
             }
 
             if (specifications.OrderBy is not null)
