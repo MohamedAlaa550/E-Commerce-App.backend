@@ -5,6 +5,9 @@ using Microsoft.Extensions.Options;
 using Persistence.Data;
 using Persistence.Data.Context;
 using Persistence.Repositories;
+using Services;
+using Services.Abstraction.Contracts;
+using Services.Implementations;
 using System.Threading.Tasks;
 
 namespace E_Commerce_App
@@ -29,6 +32,8 @@ namespace E_Commerce_App
 
             builder.Services.AddScoped<IDbInitializer,DbInitializer>();
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+            builder.Services.AddScoped<IServiceManger, ServiceManger>();
+            builder.Services.AddAutoMapper(o => { },typeof(AssemblyReference).Assembly);
 
 
 
@@ -46,6 +51,7 @@ namespace E_Commerce_App
             }
 
             app.UseHttpsRedirection();
+            app.UseStaticFiles();
 
             app.UseAuthorization();
 

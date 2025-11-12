@@ -11,7 +11,7 @@ using Persistence.Data.Context;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(StoreDbContext))]
-    [Migration("20251112144524_ProductModule")]
+    [Migration("20251112212852_ProductModule")]
     partial class ProductModule
     {
         /// <inheritdoc />
