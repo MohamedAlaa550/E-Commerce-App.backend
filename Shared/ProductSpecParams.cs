@@ -10,7 +10,7 @@ namespace Shared
     public class ProductSpecParams
     {
         public ProductSortringOptions? sort { get; set; }
-        public int? TppeId { get; set; }
+        public int? TypeId { get; set; }
         public int? BrandId { get; set; }
     }
 }
