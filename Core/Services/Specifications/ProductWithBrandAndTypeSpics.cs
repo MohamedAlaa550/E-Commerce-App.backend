@@ -14,7 +14,9 @@ namespace Services.Specifications
         public ProductWithBrandAndTypeSpics(ProductSpecParams parameters) 
             : base(product=>
             (!parameters.TypeId.HasValue || product.TypeId == parameters.TypeId.Value ) &&
-            (!parameters.BrandId.HasValue || product.BrandId == parameters.BrandId.Value))
+            (!parameters.BrandId.HasValue || product.BrandId == parameters.BrandId.Value) &&
+            (String.IsNullOrWhiteSpace(parameters.Search) || product.Name.ToLower().Contains
+            (parameters.Search.ToLower().Trim())))
         {
             AddInclude(p => p.ProductBrand);
             AddInclude(p => p.ProductType);

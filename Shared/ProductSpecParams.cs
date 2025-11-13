@@ -20,11 +20,14 @@ namespace Shared
         public int pageIndex { get; set; } = 1;
 
         private int PageSize = DefaultPageSize;
+
         public int pageSize
         {
             get { return PageSize; }
             set { PageSize = (value > MaxPageSize) ? MaxPageSize : value; }
         }
+
+        public string? Search { get; set; }
 
 
     }
