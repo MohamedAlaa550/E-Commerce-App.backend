@@ -36,6 +36,7 @@ namespace Services.Specifications
                     SetOrderBy(p => p.Name);
                     break;
             }
+            ApplyPagination(parameters.pageIndex, parameters.pageSize);
         }
         public ProductWithBrandAndTypeSpics(int id) 
             : base(p => p.Id == id)
