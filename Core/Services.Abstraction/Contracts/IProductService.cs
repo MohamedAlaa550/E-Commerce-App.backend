@@ -11,7 +11,7 @@ namespace Services.Abstraction.Contracts
 {
     public interface IProductService
     {
-        Task<IEnumerable<ProductDto>> GetAllProductsAsync(ProductSpecParams parameters);
+        Task<PagiantedResult<ProductDto>> GetAllProductsAsync(ProductSpecParams parameters);
         Task<ProductDto?> GetProductByIdAsync(int id);
         Task<IEnumerable<BrandDto>> GetAllBrandsAsync();
 
