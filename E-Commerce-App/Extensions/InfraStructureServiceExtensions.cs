@@ -1,0 +1,26 @@
+﻿using Domain.Contracts;
+using Microsoft.EntityFrameworkCore;
+using Persistence.Data;
+using Persistence.Data.Context;
+using Persistence.Repositories;
+
+namespace E_Commerce_App.Extensions
+{
+    public static class InfraStructureServiceExtensions
+    {
+        public static IServiceCollection AddInfraStructureServices(this IServiceCollection services
+            , IConfiguration configuration)
+        {
+
+           services.AddScoped<IDbInitializer, DbInitializer>();
+           services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddDbContext<StoreDbContext>((OptionsBuilder) =>
+            {
+                OptionsBuilder.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
+            });
+            return services;
+
+        }
+
+    }
+}
