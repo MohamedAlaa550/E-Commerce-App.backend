@@ -23,6 +23,12 @@ namespace Services.Specifications
         public Expression<Func<TEntity, object>>? OrderBy { get; private set; }
         public Expression<Func<TEntity, object>>? OrderByDesc { get; private set; }
 
+        public int Take { get; private set; }
+
+        public int Skip { get; private set; }
+
+        public bool IsPaginated { get; private set; }
+
         protected void AddInclude(Expression<Func<TEntity, object>> includeExpression)
         {
             Includes.Add(includeExpression);
@@ -36,6 +42,13 @@ namespace Services.Specifications
         protected void SetOrderByDesc(Expression<Func<TEntity, object>> orderByDescExpression)
         {
             OrderByDesc = orderByDescExpression;
+        }
+
+        protected void ApplyPagination(int pageIndex, int pageSize)
+        {
+            IsPaginated = true;
+            Skip = (pageIndex - 1) * pageSize;
+            Take = pageSize;
         }
     }
 

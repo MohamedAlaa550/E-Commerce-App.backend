@@ -1,4 +1,5 @@
-﻿using Shared.Dtos;
+﻿using Shared;
+using Shared.Dtos;
 using Shared.Enums;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ namespace Services.Abstraction.Contracts
 {
     public interface IProductService
     {
-        Task<IEnumerable<ProductDto>> GetAllProductsAsync(ProductSortringOptions sort);
+        Task<PagiantedResult<ProductDto>> GetAllProductsAsync(ProductSpecParams parameters);
         Task<ProductDto?> GetProductByIdAsync(int id);
         Task<IEnumerable<BrandDto>> GetAllBrandsAsync();
 

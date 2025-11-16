@@ -33,6 +33,9 @@ namespace Persistence
             else if (specifications.OrderByDesc is not null)
                 query = query.OrderByDescending(specifications.OrderByDesc);
 
+            if (specifications.IsPaginated)
+                query = query.Skip(specifications.Skip).Take(specifications.Take);
+
 
 
 

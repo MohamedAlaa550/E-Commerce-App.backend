@@ -3,6 +3,7 @@ using Domain.Contracts;
 using Domain.Entities.ProductModule;
 using Services.Abstraction.Contracts;
 using Services.Specifications;
+using Shared;
 using Shared.Dtos;
 using Shared.Enums;
 using System;
@@ -23,12 +24,17 @@ namespace Services.Implementations
             return brandDtos;
         }
 
-        public async Task<IEnumerable<ProductDto>> GetAllProductsAsync(ProductSortringOptions sort)
+        public async Task<PagiantedResult<ProductDto>> GetAllProductsAsync(ProductSpecParams parameters)
         {
             var products = await _unitOfWork.GetRepository<Product, int>().GetAllAsync
-                (new ProductWithBrandAndTypeSpics(sort));
+                (new ProductWithBrandAndTypeSpics(parameters));
             var productDtos = _mapper.Map<IEnumerable<ProductDto>>(products);
-            return productDtos;
+            var pageSize= productDtos.Count();
+            var totalCount = await _unitOfWork.GetRepository<Product, int>()
+                .ApplayCountAsync(new ProductCountSpecifications(parameters));
+            return new PagiantedResult<ProductDto>(
+                parameters.pageIndex,pageSize,totalCount, productDtos
+                );
         }
 
         public async Task<IEnumerable<TypeDto>> GetAllTypesAsync()

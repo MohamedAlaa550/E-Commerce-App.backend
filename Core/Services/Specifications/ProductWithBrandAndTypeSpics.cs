@@ -1,4 +1,5 @@
 ﻿using Domain.Entities.ProductModule;
+using Shared;
 using Shared.Enums;
 using System;
 using System.Collections.Generic;
@@ -10,12 +11,16 @@ namespace Services.Specifications
 {
     internal class ProductWithBrandAndTypeSpics : BaseSpecifications<Product,int>
     {
-        public ProductWithBrandAndTypeSpics(ProductSortringOptions sort) 
-            : base(null)
+        public ProductWithBrandAndTypeSpics(ProductSpecParams parameters) 
+            : base(product=>
+            (!parameters.TypeId.HasValue || product.TypeId == parameters.TypeId.Value ) &&
+            (!parameters.BrandId.HasValue || product.BrandId == parameters.BrandId.Value) &&
+            (String.IsNullOrWhiteSpace(parameters.Search) || product.Name.ToLower().Contains
+            (parameters.Search.ToLower().Trim())))
         {
             AddInclude(p => p.ProductBrand);
             AddInclude(p => p.ProductType);
-            switch(sort)
+            switch(parameters.sort)
             {
                 case ProductSortringOptions.NameAsc:
                     SetOrderBy(p => p.Name);
@@ -33,6 +38,7 @@ namespace Services.Specifications
                     SetOrderBy(p => p.Name);
                     break;
             }
+            ApplyPagination(parameters.pageIndex, parameters.pageSize);
         }
         public ProductWithBrandAndTypeSpics(int id) 
             : base(p => p.Id == id)
