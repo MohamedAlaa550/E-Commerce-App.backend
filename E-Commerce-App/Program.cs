@@ -1,5 +1,6 @@
 
 using Domain.Contracts;
+using E_Commerce_App.MidlleWarers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Persistence.Data;
@@ -44,6 +45,7 @@ namespace E_Commerce_App
 
             #region Middlewares
             // Configure the HTTP request pipeline.
+            app.UseMiddleware<GlobalErrorHandlingMiddleWare>();
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
