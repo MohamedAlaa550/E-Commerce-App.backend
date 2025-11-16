@@ -1,6 +1,8 @@
 
 using Domain.Contracts;
+using E_Commerce_App.Factories;
 using E_Commerce_App.MidlleWarers;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Persistence.Data;
@@ -23,9 +25,15 @@ namespace E_Commerce_App
 
             #region Services Container
             builder.Services.AddControllers();
+   
             builder.Services.AddDbContext<StoreDbContext>((OptionsBuilder) =>
             {
                 OptionsBuilder.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+            });
+            builder.Services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.InvalidModelStateResponseFactory =
+                ApiResponseFactory.CustomValidationErrorResponse;
             });
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
