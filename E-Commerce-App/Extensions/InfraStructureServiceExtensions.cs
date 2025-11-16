@@ -19,12 +19,19 @@ namespace E_Commerce_App.Extensions
             {
                 OptionsBuilder.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
             });
-            return services;
 
             services.AddScoped<IBasketRepository, BasketRepository>();
 
-            services.AddSingleton<IConnectionMultiplexer>(_=> ConnectionMultiplexer.Connect
-            (configuration.GetConnectionString("Redis")!));
+            services.AddSingleton<IConnectionMultiplexer>(_ => ConnectionMultiplexer.Connect
+            (configuration.GetConnectionString("RedisConnection")!));
+
+
+
+
+
+            return services;
+
+        
         }
 
     }

@@ -30,9 +30,7 @@ namespace Presentation.Controllers
 
         [HttpGet("{id:int}")]
         [ProducesResponseType(typeof(ProductDto),StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ErrorDetails),StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status500InternalServerError)]
-        [ProducesResponseType(typeof(ValidationErrorRespons), StatusCodes.Status400BadRequest)]
+   
 
         public async Task<ActionResult<ProductDto?>> GetProduct(int id)
         {

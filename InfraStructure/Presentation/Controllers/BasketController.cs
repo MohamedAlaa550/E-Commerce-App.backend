@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Services.Abstraction.Contracts;
 using Shared.Dtos;
+using Shared.ErrorModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +14,8 @@ namespace Presentation.Controllers
     public class BasketController(IServiceManger serviceManger) : ApiControllerBase
     {
         [HttpGet("{id}")]
+        [ProducesResponseType(typeof(BasketDto), StatusCodes.Status200OK)]
+      
         public async Task<ActionResult<BasketDto>> Get(string id)
         => Ok(await serviceManger.BasketService.GetBasketAsync(id));
 
