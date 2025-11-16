@@ -21,7 +21,7 @@ namespace Services.MappingProfiles
         {
             if (string.IsNullOrWhiteSpace(source.PictureUrl))
             return string.Empty;
-            return $"{configuration["BaseUrl"]}/{source.PictureUrl}";
+            return $"{configuration["BaseUrl"]}{source.PictureUrl}";
         }
     }
 }
