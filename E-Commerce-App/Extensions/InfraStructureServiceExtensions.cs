@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Persistence.Data;
 using Persistence.Data.Context;
 using Persistence.Repositories;
+using StackExchange.Redis;
 
 namespace E_Commerce_App.Extensions
 {
@@ -20,6 +21,10 @@ namespace E_Commerce_App.Extensions
             });
             return services;
 
+            services.AddScoped<IBasketRepository, BasketRepository>();
+
+            services.AddSingleton<IConnectionMultiplexer>(_=> ConnectionMultiplexer.Connect
+            (configuration.GetConnectionString("Redis")!));
         }
 
     }
