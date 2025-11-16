@@ -1,4 +1,5 @@
 ﻿using Domain.Exceptions;
+using Microsoft.AspNetCore.Http;
 using Shared.ErrorModels;
 using System.Net;
 
@@ -20,6 +21,9 @@ namespace E_Commerce_App.MidlleWarers
             try
             {
                 await _next(httpContext);
+                if (httpContext.Response.StatusCode == (int)HttpStatusCode.NotFound)
+                    await HandleNotFoundEndPointAsync(httpContext);
+
             }
             catch (Exception exception)
             {
@@ -44,6 +48,16 @@ namespace E_Commerce_App.MidlleWarers
                 StatusCode = httpContext.Response.StatusCode,
                 ErrorMessage = exception.Message
            }.ToString();
+            await httpContext.Response.WriteAsync(response);
+        }
+        private async Task HandleNotFoundEndPointAsync (HttpContext httpContext)
+        {
+            httpContext.Response.ContentType = "application/json";
+            var response = new ErrorDetails
+            {
+                StatusCode = (int)HttpStatusCode.NotFound,
+                ErrorMessage = $" The End Point {httpContext.Request.Path} Not Found"
+            }.ToString(); 
             await httpContext.Response.WriteAsync(response);
         }
     }
