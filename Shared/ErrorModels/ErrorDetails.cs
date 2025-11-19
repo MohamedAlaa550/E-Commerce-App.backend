@@ -11,6 +11,8 @@ namespace Shared.ErrorModels
     {
         public int StatusCode { get; set; }
         public string ErrorMessage { get; set; }
+        public IEnumerable<string>? Errors { get; set; }
+
         override public string ToString()
         => JsonSerializer.Serialize(this);
     }

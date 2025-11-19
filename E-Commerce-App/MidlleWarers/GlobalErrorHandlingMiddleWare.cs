@@ -37,28 +37,38 @@ namespace E_Commerce_App.MidlleWarers
         private async Task HndleExceptionAsync(HttpContext httpContext, Exception exception)
         {
             httpContext.Response.ContentType = "application/json";
-            httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+            var response = new ErrorDetails
+            {
+                ErrorMessage = exception.Message
+            };
+            // httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
             httpContext.Response.StatusCode = exception switch
             {
-                NotFoundException  => (int)HttpStatusCode.NotFound,
+                NotFoundException => StatusCodes.Status404NotFound,
+                UnAuthorizedException => StatusCodes.Status401Unauthorized,
+                ValidationsExceptions validationsExceptions =>
+                HandleValidationExceptions(validationsExceptions, response),
                 _ => (int)HttpStatusCode.InternalServerError
             };
-            var response = new ErrorDetails
-           {
-                StatusCode = httpContext.Response.StatusCode,
-                ErrorMessage = exception.Message
-           }.ToString();
-            await httpContext.Response.WriteAsync(response);
+            response.StatusCode = httpContext.Response.StatusCode;
+
+            await httpContext.Response.WriteAsync(response.ToString());
         }
-        private async Task HandleNotFoundEndPointAsync (HttpContext httpContext)
+        private async Task HandleNotFoundEndPointAsync(HttpContext httpContext)
         {
             httpContext.Response.ContentType = "application/json";
             var response = new ErrorDetails
             {
                 StatusCode = (int)HttpStatusCode.NotFound,
                 ErrorMessage = $" The End Point {httpContext.Request.Path} Not Found"
-            }.ToString(); 
+            }.ToString();
             await httpContext.Response.WriteAsync(response);
+        }
+
+        private int HandleValidationExceptions(ValidationsExceptions validationsExceptions, ErrorDetails response)
+        {
+            response.Errors = validationsExceptions.Errors;
+            return StatusCodes.Status400BadRequest;
         }
     }
 }
