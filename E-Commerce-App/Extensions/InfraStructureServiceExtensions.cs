@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Persistence.Data;
 using Persistence.Data.Context;
+using Persistence.Identity;
 using Persistence.Repositories;
 using StackExchange.Redis;
 
@@ -18,6 +19,11 @@ namespace E_Commerce_App.Extensions
             services.AddDbContext<StoreDbContext>((OptionsBuilder) =>
             {
                 OptionsBuilder.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
+            });
+
+            services.AddDbContext<StoreIdentityContext>((OptionsBuilder) =>
+            {
+                OptionsBuilder.UseSqlServer(configuration.GetConnectionString("IdentityConnection"));
             });
 
             services.AddScoped<IBasketRepository, BasketRepository>();
