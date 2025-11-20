@@ -1,12 +1,16 @@
 ﻿using Domain.Contracts;
 using Domain.Entities.IdentityModule;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Persistence.Data;
 using Persistence.Data.Context;
 using Persistence.Identity;
 using Persistence.Repositories;
+using Shared;
 using StackExchange.Redis;
+using System.Text;
 
 namespace E_Commerce_App.Extensions
 {
@@ -35,6 +39,8 @@ namespace E_Commerce_App.Extensions
             services.AddSingleton<IConnectionMultiplexer>(_ => ConnectionMultiplexer.Connect
             (configuration.GetConnectionString("RedisConnection")!));
 
+            services.ConfigureJwt(configuration);
+
 
 
 
@@ -58,5 +64,30 @@ namespace E_Commerce_App.Extensions
             }).AddEntityFrameworkStores<StoreIdentityContext>();
             return services;
         }
+
+        public static IServiceCollection ConfigureJwt(this IServiceCollection services
+            , IConfiguration configuration)
+        {
+            var jwtOptions = configuration.GetSection("JwtOptions").Get<JwtOptions>();
+            services.AddAuthentication(options => { 
+            options.DefaultAuthenticateScheme= JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme= JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime =  true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = jwtOptions.Issuer,
+                    ValidAudience = jwtOptions.Audience,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.SecretKey)),
+                };
+                });
+            services.AddAuthentication();
+            return services;
+        }
+          
     }
 }

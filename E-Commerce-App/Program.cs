@@ -28,7 +28,7 @@ namespace E_Commerce_App
             
    
            builder.Services.AddInfraStructureServices(builder.Configuration);
-           builder.Services.AddCoreServices();
+           builder.Services.AddCoreServices(builder.Configuration);
             builder.Services.AddWebApiServices();
 
 
@@ -48,7 +48,7 @@ namespace E_Commerce_App
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
 
