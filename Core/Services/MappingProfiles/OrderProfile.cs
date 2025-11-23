@@ -1,4 +1,7 @@
 ﻿global using ShippingAddress = Domain.Entities.OrderModule.Address;
+global using UserAddress = Domain.Entities.IdentityModule.Adress;
+
+
 using AutoMapper;
 using Domain.Entities.OrderModule;
 using Shared.Dtos.Order;
@@ -15,6 +18,7 @@ namespace Services.MappingProfiles
         public OrderProfile() 
         {
             CreateMap<ShippingAddress, AddressDto>().ReverseMap();
+            CreateMap<UserAddress, AddressDto>().ReverseMap();
 
             CreateMap<OrderItem, OrderItemDto>()
                 .ForMember(d => d.ProductId, o => o.MapFrom(s => s.Product.ProductId))
