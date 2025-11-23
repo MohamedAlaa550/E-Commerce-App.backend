@@ -11,7 +11,7 @@ namespace Services.Abstraction.Contracts
     {
         public Task<OrderDto> GetOrderByIdAsync(Guid id);
 
-        public Task<IEnumerable<OrderDto>> GetOrdersByIdAsync(string email);
+        public Task<IEnumerable<OrderDto>> GetOrdersByEmailAsync(string email);
 
         public Task<OrderDto> CreateOrderAsync(OrderRequest request, string userEmail);
 

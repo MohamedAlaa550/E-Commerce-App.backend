@@ -56,7 +56,7 @@ namespace Services.Implementations
             return mapper.Map<OrderDto>(order);
         }
 
-        public async Task<IEnumerable<OrderDto>> GetOrdersByIdAsync(string email)
+        public async Task<IEnumerable<OrderDto>> GetOrdersByEmailAsync(string email)
         {
            var orders =  await unitOfWork.GetRepository<Order,Guid>()
                 .GetAllAsync(new OrderWithIncludesSpecifications(email));

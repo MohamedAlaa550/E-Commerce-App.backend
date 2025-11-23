@@ -8,8 +8,9 @@ namespace Shared.Dtos.Order
 {
     public record OrderRequest
     {
-        public AddressDto ShippingAddress { get; set; }
         public string BasketId { get; set; }
+
+        public AddressDto ShippingAddress { get; set; }
         public int DeliveryMethodId { get; set; }
     }
 }
