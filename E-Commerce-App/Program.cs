@@ -48,6 +48,7 @@ namespace E_Commerce_App
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseCors("CROSPolicy");
             app.UseAuthentication();
             app.UseAuthorization();
 
