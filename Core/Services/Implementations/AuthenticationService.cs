@@ -19,7 +19,7 @@ using System.Threading.Tasks;
 
 namespace Services.Implementations
 {
-    internal class AuthenticationService(UserManager<User> userManager
+    public class AuthenticationService(UserManager<User> userManager
         ,IOptions<JwtOptions> options, IMapper mapper)
         : IAuthenticationService
     {

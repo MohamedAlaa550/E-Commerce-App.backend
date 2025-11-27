@@ -17,7 +17,7 @@ namespace Services.Implementations
     public class ServiceManger(IUnitOfWork _unitOfWork, IMapper _mapper,
         IBasketRepository basketRepository,
         UserManager<User> userManager, IOptions<JwtOptions> options,
-        IConfiguration configuration) : IServiceManger
+        IConfiguration configuration) 
     {
         private readonly Lazy<IProductService> _productService 
             = new Lazy<IProductService>(()=> new ProductService(_unitOfWork, _mapper));

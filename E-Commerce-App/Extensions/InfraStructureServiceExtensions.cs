@@ -8,6 +8,7 @@ using Persistence.Data;
 using Persistence.Data.Context;
 using Persistence.Identity;
 using Persistence.Repositories;
+using Services.Abstraction.Contracts;
 using Shared;
 using StackExchange.Redis;
 using System.Text;
@@ -22,6 +23,7 @@ namespace E_Commerce_App.Extensions
 
             services.AddScoped<IDbInitializer, DbInitializer>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<ICacheRepository, CacheRepository>();
             services.AddDbContext<StoreDbContext>((OptionsBuilder) =>
             {
                 OptionsBuilder.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
