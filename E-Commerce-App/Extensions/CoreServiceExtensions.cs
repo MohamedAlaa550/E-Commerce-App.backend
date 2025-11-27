@@ -15,6 +15,8 @@ namespace E_Commerce_App.Extensions
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<IOrderService, OrderService>();
             services.AddScoped<IPaymentService, PaymentService>();
+            services.AddScoped<ICacheService, CacheService>();
+
             services.AddAutoMapper(o => { }, typeof(AssemblyReference).Assembly);
             services.Configure<JwtOptions>(configuration.GetSection("JwtOptions"));
 
@@ -37,6 +39,11 @@ namespace E_Commerce_App.Extensions
 
             services.AddScoped<Func<IPaymentService>>(provider =>
          () => provider.GetRequiredService<IPaymentService>());
+
+            services.AddScoped<Func<ICacheService>>(provider =>
+         () => provider.GetRequiredService<ICacheService>());
+
+
 
 
 
